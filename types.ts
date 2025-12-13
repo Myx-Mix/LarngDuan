@@ -19,7 +19,7 @@ export interface Transaction {
   tendered: number;
   change: number;
   timestamp: number;
-  paymentMethod: 'CASH';
+  paymentMethod: 'CASH' | 'QR';
 }
 
 export interface SalesSummary {

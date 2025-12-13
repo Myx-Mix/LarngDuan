@@ -2,7 +2,7 @@ import { Transaction } from '../types';
 
 // TODO: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
 // Example: "https://script.google.com/macros/s/AKfycbx.../exec"
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5UYA9mTEvv2PdOwA36dNynmTy0WK-Wbh9P2cLcLuJolOub1eOFhR-fHatSEvV8CFF/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyTdxLuukKG75CC85Fw-1ysZHE6hUqthDg9uPioffGBQcgPYr2YHYHv8_sxL3p-abQz/exec';
 
 export const recordTransactionToSheet = async (transaction: Transaction) => {
   if (!GOOGLE_SCRIPT_URL) {

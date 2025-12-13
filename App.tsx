@@ -13,12 +13,12 @@ import { Plus } from 'lucide-react';
 export default function App() {
   // --- State ---
   const [currentView, setCurrentView] = useState<'POS' | 'DASHBOARD'>('POS');
-  
+
   // Data State
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  
+
   // Modal State
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
@@ -38,9 +38,9 @@ export default function App() {
     while (loopDate <= today) {
       const month = loopDate.getMonth(); // 0 = Jan, 11 = Dec
       const dayOfWeek = loopDate.getDay(); // 0 = Sun, 6 = Sat
-      
+
       let dailyBaseOrders = 0;
-      
+
       if (month >= 5 && month <= 9) {
         dailyBaseOrders = 3 + Math.random() * 5;
       } else if (month >= 10 || month <= 1) {
@@ -56,17 +56,17 @@ export default function App() {
       const orderCount = Math.floor(dailyBaseOrders);
 
       for (let i = 0; i < orderCount; i++) {
-        const itemCount = Math.random() > 0.8 ? 2 : 1; 
+        const itemCount = Math.random() > 0.8 ? 2 : 1;
         const items: CartItem[] = [];
-        
+
         for (let j = 0; j < itemCount; j++) {
           const product = MOCK_PRODUCTS[Math.floor(Math.random() * MOCK_PRODUCTS.length)];
           items.push({ ...product, quantity: 1 });
         }
 
         const subtotal = items.reduce((sum, item) => sum + item.price, 0);
-        const total = subtotal; 
-        
+        const total = subtotal;
+
         const time = new Date(loopDate);
         time.setHours(8 + Math.floor(Math.random() * 10), Math.floor(Math.random() * 60));
 
@@ -76,13 +76,13 @@ export default function App() {
           subtotal,
           tax: 0,
           total,
-          tendered: total, 
+          tendered: total,
           change: 0,
           timestamp: time.getTime(),
           paymentMethod: 'CASH',
         });
       }
-      
+
       loopDate.setDate(loopDate.getDate() + 1);
       dayIndex++;
     }
@@ -159,7 +159,7 @@ export default function App() {
     setIsPaymentModalOpen(true);
   };
 
-  const handleCompleteTransaction = (tendered: number, change: number) => {
+  const handleCompleteTransaction = (tendered: number, change: number, paymentMethod: 'CASH' | 'QR') => {
     const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const tax = subtotal * TAX_RATE;
     const totalRaw = subtotal + tax;
@@ -174,7 +174,7 @@ export default function App() {
       tendered,
       change,
       timestamp: Date.now(),
-      paymentMethod: 'CASH',
+      paymentMethod,
     };
 
     setTransactions((prev) => [...prev, newTransaction]);
@@ -186,10 +186,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar 
-        currentView={currentView} 
-        setView={setCurrentView} 
-        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)} 
+      <Navbar
+        currentView={currentView}
+        setView={setCurrentView}
+        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
       />
 
       <main className="flex-1 flex overflow-hidden">
@@ -197,21 +197,21 @@ export default function App() {
           <div className="flex w-full h-[calc(100vh-64px)]">
             {/* Left: Product Grid */}
             <div className="flex-1 overflow-hidden bg-slate-50 relative group">
-               <div className="absolute inset-0 overflow-y-auto">
-                 <ProductList 
-                    products={products} 
-                    onAddToCart={handleAddToCart}
-                    onEditProduct={handleEditProduct}
-                 />
-               </div>
-               {/* Floating Add Button - Positioned absolute relative to this container */}
-               <button
-                  onClick={handleAddProduct}
-                  className="absolute bottom-8 right-8 z-30 w-16 h-16 bg-black text-yellow-400 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform hover:shadow-yellow-400/20 border-4 border-yellow-400"
-                  title="Add Custom Product"
-               >
-                  <Plus size={32} strokeWidth={3} />
-               </button>
+              <div className="absolute inset-0 overflow-y-auto">
+                <ProductList
+                  products={products}
+                  onAddToCart={handleAddToCart}
+                  onEditProduct={handleEditProduct}
+                />
+              </div>
+              {/* Floating Add Button - Positioned absolute relative to this container */}
+              <button
+                onClick={handleAddProduct}
+                className="absolute bottom-8 right-8 z-30 w-16 h-16 bg-black text-yellow-400 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform hover:shadow-yellow-400/20 border-4 border-yellow-400"
+                title="Add Custom Product"
+              >
+                <Plus size={32} strokeWidth={3} />
+              </button>
             </div>
 
             {/* Right: Cart Sidebar */}
@@ -227,8 +227,8 @@ export default function App() {
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto">
-            <Dashboard 
-              transactions={transactions} 
+            <Dashboard
+              transactions={transactions}
             />
           </div>
         )}

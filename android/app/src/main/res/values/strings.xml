@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">LarngDuan</string>
+    <string name="title_activity_main">LarngDuan</string>
+    <string name="package_name">com.larngduan.app</string>
+    <string name="custom_url_scheme">com.larngduan.app</string>
+</resources>

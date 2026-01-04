@@ -59,8 +59,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto flex flex-col animate-in fade-in zoom-in duration-200">
+        <div className="bg-slate-50 px-6 py-4 border-b border-slate-200 flex justify-between items-center sticky top-0 z-10">
           <h3 className="font-bold text-lg text-slate-800">Complete Payment</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
             <X size={24} />
